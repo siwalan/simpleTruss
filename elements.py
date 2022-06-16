@@ -1,45 +1,30 @@
 import numpy as np
-import math
-class element:
-    def __init__(self,i,j,material):
-        self.ndi = i
-        self.ndj = j
-        self.nodes = [self.ndi, self.ndj]
 
-        self.material = material
-        self.force = [np.array([0., 0.]),np.array([0., 0.])]
-        self.Kt = np.zeros([2,2])
 
-        xi,yi = self.ndi.pos
-        xj,yj = self.ndj.pos
-        self.length = math.sqrt((xj-xi)**2 + (yj-yi)**2)
-        self.assembleStifness()
+class system:
 
-    def __str__(self):
-        s = "Element with ({})".format(self.nodes)
-        return s
+    def __init__(self):
+        self.nodes = []
+        self.elements = []
+        self.GSM = []
 
-    def __repr__(self):
-        return str(self)
+    def addNodes(self,node):
+        self.nodes.append(node)
+        nl = len(self.nodes)
+        self.GSM = np.zeros([2*nl, 2*nl])
 
-    def getCoordinates(self):
-        return [self.ndi.getpos(), self.ndj.getpos()]
+    def getGSMSize(self):
+        return self.GSM.shape
 
-    def getStiffness(self):
-        return self.Kt
+    def getNodes(self):
+        return self.nodes
 
-    def getLength(self):
-        return self.length
-
-    def assembleStifness(self):
-        E = 200000 # 200 MPa
-        A = 100 # 100 mm^2
-        xi,yi = self.ndi.pos
-        xj,yj = self.ndj.pos
-        c = (xj-xi)/self.length
-        s = (yj-yi)/self.length
-        self.Kt = (E*A)/self.length * np.array([[c*c, c*s, -c*c, -c*s], [c*s, s*s, -c*s, -s*s ], [-c*c, -c*s, c*c, c*s],[-c*s, -s*s, c*s, s*s]])
-
-    def getForce(self):
-        return  self.force
-
+    def assembleGSM(self):
+        for element in elements:
+            nodeI = node.getID(element.ndi)
+            nodeJ = node.getID(element.ndj)
+            nodeI_DOFX = nodeI*2-1
+            nodeI_DOFY = nodeI*2
+            nodeJ_DOFX = nodeJ*2-1
+            nodeJ_DOFY = nodeJ*2
+            #self.GSM[nodeI_DOFX,nodeI_DOFX] +=
