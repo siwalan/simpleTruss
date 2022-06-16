@@ -28,3 +28,5 @@ class system:
             nodeJ_DOFX = nodeJ*2-1
             nodeJ_DOFY = nodeJ*2
             self.GSM[nodeI_DOFX,nodeI_DOFX] +=
+        ## Already forgot how to assemble GSM in an automatic way 
+        ## Need to refresh things up
