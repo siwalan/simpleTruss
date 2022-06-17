@@ -1,14 +1,14 @@
 import numpy as np
 
 class Node(object):
-    def __init__(self, params={'id':1, 'x':0.0, 'y':0.0}):
+    def __init__(self, params={'x':0.0, 'y':0.0}):
         self.params = params
         if 'x' not in self.params:
             self.params['x']  = 0.0
         if 'y' not in self.params:
             self.params['y'] = 0.0
 
-        self.id = self.params['id']
+        self.id = -1
         self.pos = np.array([params['x'],params['y']])
         self.disp = np.array([0.0, 0.0])
         self.force = np.array([0.0, 0.0])
@@ -29,16 +29,16 @@ class Node(object):
     def isfixed(self,dof):
         return self.fixity[dof]
 
-    def setdisp(self,u,v):
+    def setDisp(self,u,v):
         self.disp = np.array([u,v])
 
-    def getdisp(self):
+    def getDisp(self):
         return self.disp
 
-    def getpos(self):
+    def getPos(self):
         return self.pos
 
-    def getdeformedpos(self,factor):
+    def getDeformedPos(self,factor):
         return (self.pos + self.disp * factor)
 
     def addLoad(self,Px,Py):
